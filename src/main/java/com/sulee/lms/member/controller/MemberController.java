@@ -87,6 +87,8 @@ public class MemberController {
         boolean result = memberService.emailAuth(uuid);
         model.addAttribute("result", result);
 
+
+
         return "member/email-auth";
     }
 

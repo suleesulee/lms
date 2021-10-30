@@ -24,18 +24,11 @@ public class MainController {
         return "index";
     }
 
-    @ResponseBody
-    @RequestMapping("/hello")
-    public void hello(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setContentType("test/html;charset=UTF-8");
-        PrintWriter printWriter = response.getWriter();
-
-        String msg = "<html>" + "<meta charset=\"UTF-8\">" + "<head>" + "</head>" + "</html>";
-
-        printWriter.write(msg);
-        printWriter.close();
-
+    @RequestMapping("/error/denied")
+    public String errorDenied(){
+        return "error/denied";
     }
+
 
 
 }
