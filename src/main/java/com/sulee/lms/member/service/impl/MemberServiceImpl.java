@@ -1,5 +1,7 @@
 package com.sulee.lms.member.service.impl;
 
+import com.sulee.lms.admin.dto.MemberDto;
+import com.sulee.lms.admin.mapper.MemberMapper;
 import com.sulee.lms.components.MailComponents;
 import com.sulee.lms.member.entity.Member;
 import com.sulee.lms.member.exception.MemberNotEmailAuthException;
@@ -28,6 +30,8 @@ public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
     private final MailComponents mailComponents;
+
+    private final MemberMapper memberMapper;
 
     @Override
     public boolean register(MemberInput parameter) {
@@ -164,6 +168,15 @@ public class MemberServiceImpl implements MemberService {
         }
 
         return true;
+    }
+
+    @Override
+    public List<MemberDto> list() {
+        MemberDto parameter = new MemberDto();
+        List<MemberDto> list = memberMapper.selectList(parameter);
+
+        return list;
+        //return memberRepository.findAll();
     }
 
     @Override
