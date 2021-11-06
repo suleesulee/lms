@@ -1,6 +1,7 @@
 package com.sulee.lms.member.service;
 
 import com.sulee.lms.admin.dto.MemberDto;
+import com.sulee.lms.admin.model.MemberParam;
 import com.sulee.lms.member.entity.Member;
 import com.sulee.lms.member.model.MemberInput;
 import com.sulee.lms.member.model.ResetPasswordInput;
@@ -24,6 +25,6 @@ public interface MemberService extends UserDetailsService {
     boolean checkResetPassword(String uuid);
     
     //회원 목록 리턴(관리자에서만 사용 가능)
-    List<MemberDto> list();
+    List<MemberDto> list(MemberParam parameter);
     
 }
