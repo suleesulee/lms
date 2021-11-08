@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>관리자 화면</title>
+  <style>
+        .list table{
+            boarder-collapse: collapse;
+            width: 100%;
+        }
+        .list table th, .list table td {
+            border: solid 1px #000;
+        }
+  </style>
+</head>
+<body>
+  <h1>관리자 화면</h1>
+    <div>
+      <a href="/admin/member/main.do"> 관리자 메인 </a>
+      |
+      <a href="/admin/member/list.do"> 회원 관리 </a>
+      |
+      <a href="#"> 카테고리 관리 </a>
+      |
+      <a href="#"> 강의 관리 </a>
+      |
+      <a href="/admin/email-template.do"> 메일 템플릿 관리</a>
+      |
+      <a href="/member/logout"> 로그아웃 </a>
+      <br/>
+    </div>
+
+  <div style="text-align: right;">
+    <a href="/admin/email/create.do"> [메일 템플릿 등록]</a>
+  </div>
+
+    <div class="list">
+        <table>
+            <thead>
+            <tr>
+              <th>NO</th>
+              <th>메일 템플릿 KEY</th>
+              <th>메일 제목</th>
+              <th>비고</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each ="x: ${list}">
+              <td th:text="${x.seq}"></td>
+              <td th:text="${x.userId}"><a href="/admin/email/update?id=232">111</a></td>
+              <td th:text="${x.userName}"></td>
+              <td th:text="${x.phone}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+</body>
+</html>
