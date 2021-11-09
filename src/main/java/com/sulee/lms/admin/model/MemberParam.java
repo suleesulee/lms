@@ -11,6 +11,13 @@ public class MemberParam {
     String searchType;
     String searchValue;
 
+    public void init(){
+        if(pageIndex < 1)
+            pageIndex = 1;
+        if(pageSize < 10)
+            pageSize = 10;
+    }
+
     public long getPageStart() {
         init();
         return (pageIndex - 1) * pageSize;
@@ -21,12 +28,6 @@ public class MemberParam {
         return pageSize;
     }
 
-    public void init(){
-        if(pageIndex < 1)
-            pageIndex = 1;
-        if(pageSize < 10)
-            pageSize = 10;
-    }
 
     public String getQueryString(){
         init();

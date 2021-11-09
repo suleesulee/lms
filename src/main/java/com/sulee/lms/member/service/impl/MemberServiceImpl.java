@@ -1,9 +1,12 @@
 package com.sulee.lms.member.service.impl;
 
+import com.sulee.lms.admin.dto.EmailTemplateDto;
 import com.sulee.lms.admin.dto.MemberDto;
 import com.sulee.lms.admin.mapper.MemberMapper;
 import com.sulee.lms.admin.model.MemberParam;
 import com.sulee.lms.components.MailComponents;
+import com.sulee.lms.email.entity.EmailTemplate;
+import com.sulee.lms.email.service.EmailTemplateService;
 import com.sulee.lms.member.entity.Member;
 import com.sulee.lms.member.exception.MemberNotEmailAuthException;
 import com.sulee.lms.member.model.MemberInput;
@@ -34,6 +37,7 @@ public class MemberServiceImpl implements MemberService {
     private final MailComponents mailComponents;
 
     private final MemberMapper memberMapper;
+    private final EmailTemplateService emailTemplateService;
 
     @Override
     public boolean register(MemberInput parameter) {
@@ -70,10 +74,15 @@ public class MemberServiceImpl implements MemberService {
         memberRepository.save(member);
 
         String email = parameter.getUserId();
-        String subject = "lms 사이트 가입을 축하드립니다.";
-        String text = "<p>lms 사이트를 가입을 축하드립니다.</p><p>아래 링크를 클릭해서 가입을 완료하세요</p>"
-                + "<div><a href='http://localhost:8080/member/email-auth?id=" + uuid + "'> 가입 완료</a></div>";
-        mailComponents.sendMail(email, subject, text);
+
+        EmailTemplateDto regEmail = emailTemplateService.getEmailTemplateDto("MEMBER_REGISTER");
+
+        //String subject = "lms 사이트 가입을 축하드립니다.";
+        //String text = "<p>lms 사이트를 가입을 축하드립니다.</p><p>아래 링크를 클릭해서 가입을 완료하세요</p>"
+        //        + "<div><a href='http://localhost:8080/member/email-auth?id=" + uuid + "'> 가입 완료</a></div>";
+
+
+        mailComponents.sendMail(email, regEmail);
 
         return true;
     }
@@ -110,12 +119,14 @@ public class MemberServiceImpl implements MemberService {
         member.setResetPasswordDt(LocalDateTime.now().plusDays(1));
         memberRepository.save(member);
 
+        EmailTemplateDto resetPasswordEmail = emailTemplateService.getEmailTemplateDto("RESET_PASSWORD");
+
 
         String email = parameter.getUserId();
         String subject = "lms 사이트 비밀번호 초기화";
         String text = "<p>lms 사이트 비밀번호 초기화 메일 입니다.</p><p>아래 링크를 클릭하셔서 비밀번호를 초기화 해주세요.</p>"
                 + "<div><a href='http://localhost:8080/member/reset/password?id=" + uuid + "'> 비밀번호 초기화 링크</a></div>";
-        mailComponents.sendMail(email, subject, text);
+        mailComponents.sendMail(email, resetPasswordEmail);
 
         return true;
     }
@@ -127,9 +138,6 @@ public class MemberServiceImpl implements MemberService {
             throw new UsernameNotFoundException("회원 정보가 존재하지 않습니다.");
         }
 
-        System.out.println("분기1");
-
-
         Member member = optionalMember.get();
 
         //초기화 날짜가 유효한지 체크
@@ -140,8 +148,6 @@ public class MemberServiceImpl implements MemberService {
         if(member.getResetPasswordDt().isBefore((LocalDateTime.now()))){
             throw new RuntimeException("유효한 날짜가 아닙니다.");
         }
-
-        System.out.println("분기2");
 
         String encPassword = BCrypt.hashpw(password, BCrypt.gensalt());
         member.setPassword(encPassword);

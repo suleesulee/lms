@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sulee.lms.admin.mapper.EmailTemplateMapper">
+    <select id="selectList"
+            resultType="com.sulee.lms.admin.dto.EmailTemplateDto">
+    select *
+    from email_template
+    </select>
+
+    <select id="selectTemplateKey"
+            parameterType="com.sulee.lms.admin.model.EmailTemplateParam"
+            resultType="com.sulee.lms.admin.dto.EmailTemplateDto">
+        select *
+        from email_template
+    </select>
+
+
+</mapper>

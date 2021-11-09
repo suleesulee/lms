@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>메일 템플릿 생성</title>
+</head>
+<body>
+
+<div th:if="${result}">
+    <h1>메일 템플릿 생성 성공</h1>
+    <p>성공하였습니다.</p>
+</div>
+
+<div th:if="${result eq false}">
+    <h1>메일 템플릿 생성 실패</h1>
+    <p>실패하였습니다.</p>
+</div>
+
+</form>
+</body>
+</html>

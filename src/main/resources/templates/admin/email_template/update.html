@@ -23,34 +23,38 @@
     </style>
 </head>
 <body>
-    <h1>이메일 템플릿 관리 - 등록</h1>
+    <h1>이메일 템플릿 관리 - 수정</h1>
+    <form method="post">
     <div class="template">
         <table>
             <tbody>
             <tr>
                 <th>메일 템플릿 KEY</th>
                 <td>
-                    <input type="text" name="text" size="20" style="width:100%; border:0;">
+                    <input type="text" th:value="${emailTemplateKey}" name="emailTemplateKey" size="20" style="width:100%; border:0;" required/>
                 </td>
             </tr>
             <tr>
                 <th>템플릿 제목</th>
                 <td>
-                    <input type="text" name="text" size="20" style="width:100%; border:0;">
+                    <input type="text" th:value="${emailTitle}" name="emailTitle" size="20" style="width:100%; border:0;" required/>
                 </td>
             </tr>
             <tr>
                 <th>메일 템플릿 내용</th>
                 <td class="subject">
-                    <input type="text" name="text" size="20" style="width:100%;height:100%; border:0;">
+                    <input type="text" th:value="${emailContent}" name="emailContent" size="20" style="width:100%;height:100%; border:0;" required/>
                 </td>
             </tr>
             </tbody>
         </table>
+        <div style="text-align: center;">
+            <button>수정 하기</button>
+        </div>
     </div>
+    </form>
     <div style="text-align: center;">
-        <a href="/admin/email/create"> 등록 하기</a>
-        <a href="/admin/email/list"> 목록 이동</a>
+        <a href="/admin/email-template/list.do"> 목록 이동</a>
     </div>
 </body>
 </html>

@@ -1,5 +1,7 @@
 package com.sulee.lms.components;
 
+import com.sulee.lms.admin.dto.EmailTemplateDto;
+import com.sulee.lms.email.entity.EmailTemplate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -17,14 +19,14 @@ public class MailComponents {
 
     boolean result = false;
 
-    public boolean sendMail(String mail, String subject, String text){
+    public boolean sendMail(String mail, EmailTemplateDto regEmail){
         MimeMessagePreparator msg = new MimeMessagePreparator() {
             @Override
             public void prepare(MimeMessage mimeMessage) throws Exception {
                 MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
                 mimeMessageHelper.setTo(mail);
-                mimeMessageHelper.setSubject(subject);
-                mimeMessageHelper.setText(text, true);
+                mimeMessageHelper.setSubject(regEmail.emailTitle);
+                mimeMessageHelper.setText(regEmail.emailContent, true);
             }
         };
 

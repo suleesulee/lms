@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>관리자 화면</title>
+    <style>
+         .template table{
+            boarder-collapse: collapse;
+            width: 100%;
+        }
+        .template table th {
+            border: solid 1px #000;
+            text-align: center;
+            width:250px
+        }
+        .template table td{
+            border: solid 1px #000;
+        }
+        .subject {
+            border: solid 1px #000;
+            height: 400px
+        }
+    </style>
+</head>
+<body>
+    <h1>이메일 템플릿 관리 - 등록</h1>
+    <form method="post">
+    <div class="template">
+        <table>
+            <tbody>
+            <tr>
+                <th>메일 템플릿 KEY</th>
+                <td>
+                    <input type="text" name="emailTemplateKey" size="20" style="width:100%; border:0;" required/>
+                </td>
+            </tr>
+            <tr>
+                <th>템플릿 제목</th>
+                <td>
+                    <input type="text" name="emailTitle" size="20" style="width:100%; border:0;" required/>
+                </td>
+            </tr>
+            <tr>
+                <th>메일 템플릿 내용</th>
+                <td class="subject">
+                    <input type="text" name="emailContent" size="20" style="width:100%;height:100%; border:0;" required/>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div style="text-align: center;">
+        <button>등록 하기</button>
+    </div>
+    </form>
+    <div style="text-align: center;">
+        <a href="/admin/email-template/list.do"> 목록 이동</a>
+    </div>
+</body>
+</html>

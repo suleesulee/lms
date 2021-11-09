@@ -38,7 +38,7 @@
     </select>
 
     <select id="selectList"
-            parameterMap="com.sulee.lms.admin.model.MemberParam"
+            parameterType="com.sulee.lms.admin.model.MemberParam"
             resultType="com.sulee.lms.admin.dto.MemberDto">
         select *
         from member

@@ -14,10 +14,10 @@ public class MemberDto {
     String password;
     LocalDateTime regDt;
     boolean emailAuthYn;
-    LocalDateTime emailAuthFt;
+    LocalDateTime emailAuthDt;
     String emailAuthKey;
     String resetPasswordKey;
-    LocalDateTime resetPasswordListDt;
+    LocalDateTime resetPasswordDt;
     boolean adminYn;
 
     //추가 컬럼
