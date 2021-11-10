@@ -11,6 +11,9 @@ public class MemberParam {
     String searchType;
     String searchValue;
 
+
+    String userId;
+
     public void init(){
         if(pageIndex < 1)
             pageIndex = 1;

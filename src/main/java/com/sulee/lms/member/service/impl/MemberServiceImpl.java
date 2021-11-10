@@ -193,9 +193,19 @@ public class MemberServiceImpl implements MemberService {
             }
         }
 
-
         return list;
         //return memberRepository.findAll();
+    }
+
+    @Override
+    public MemberDto detail(String userId) {
+        Optional<Member> optionalMember = memberRepository.findById(userId);
+        if(!optionalMember.isPresent()){
+            return null;
+        }
+        Member member = optionalMember.get();
+        return null;
+        //return MemberDto.of(member);
     }
 
     @Override

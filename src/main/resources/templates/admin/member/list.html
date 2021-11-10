@@ -53,8 +53,6 @@
     </div>
 
     <div class="list">
-
-
         <div class="search-form">
             <p class="total-count"><span th:text="${totalCount}"</span>개</p>
             <form method="get">
@@ -85,7 +83,7 @@
             <tr th:each ="x: ${list}">
                 <td th:text="${x.seq}"></td>
                 <td>
-                    <a th:text="${x.userId}" th:href="${'detail.do?id=' + x.userId}"></a>
+                    <a th:text="${x.userId}" th:href="${'detail.do?userId=' + x.userId}"></a>
                 </td>
                 <td th:text="${x.userName}"></td>
                 <td th:text="${x.phone}"></td>
@@ -94,7 +92,7 @@
                     <p th:if="${x.emailAuthYn eq false}">N</p>
                 </td>
                 <td>
-                    <p th:text if="${x.regDt}"></p>
+                    <p th:text="${x.regDt}"></p>
                 </td>
                 <td>
                     <p th:if="${x.adminYn}">Y</p>
