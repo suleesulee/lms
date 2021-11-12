@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @Builder
 @Data
 @Entity
-public class Member {
+public class Member implements MemberCode {
     @Id
     @Column(name = "user_id", nullable = false)
     private String userId;
@@ -37,4 +37,7 @@ public class Member {
     // 준회원, 정회원, 특별회원, 관리자
 
     private boolean adminYn;
+    //이용가능상태, 정지상태
+    private String userStatus;
+
 }

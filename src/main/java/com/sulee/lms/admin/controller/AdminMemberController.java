@@ -1,14 +1,16 @@
-package com.sulee.lms.admin;
+package com.sulee.lms.admin.controller;
 
 
 import com.sulee.lms.admin.dto.MemberDto;
 import com.sulee.lms.admin.model.MemberParam;
+import com.sulee.lms.admin.model.MemberInput;
 import com.sulee.lms.member.service.MemberService;
 import com.sulee.lms.util.PageUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 
@@ -53,7 +55,19 @@ public class AdminMemberController {
         return "admin/member/detail";
     }
 
+    @PostMapping("/admin/member/status.do")
+    public String status(Model model, MemberInput parameter){
+        boolean result = memberService.updateStatus(parameter.getUserId(), parameter.getUserStatus());
 
+        return "redirect:/admin/member/detail.do?userId=" + parameter.getUserId();
+    }
+
+    @PostMapping("/admin/member/password.do")
+    public String password(Model model, MemberInput parameter){
+        boolean result = memberService.updatePassword(parameter.getUserId(), parameter.getPassword());
+
+        return "redirect:/admin/member/detail.do?userId=" + parameter.getUserId();
+    }
 
 
 }

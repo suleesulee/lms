@@ -1,4 +1,4 @@
-package com.sulee.lms.admin;
+package com.sulee.lms.admin.controller;
 
 import com.sulee.lms.admin.dto.EmailTemplateDto;
 import com.sulee.lms.email.entity.EmailTemplate;
