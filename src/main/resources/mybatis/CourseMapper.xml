@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.sulee.lms.admin.mapper.MemberMapper">
+<mapper namespace="com.sulee.lms.course.mapper.CourseMapper">
 
     <sql id="selectListWhere">
         <if test="searchType != null and searchValue != null">
@@ -32,20 +32,18 @@
 
     <select id="selectListCount" resultType="long">
         select count(*)
-        from member
+        from course
+        where 1=1
+            <include refid="selectListWhere"></include>
+    </select>
+
+    <select id="selectList" resultType="com.sulee.lms.course.dto.CourseDto">
+        select *
+        from course
         where 1=1
             <include refid="selectListWhere"></include>
 
-    </select>
-
-    <select id="selectList" resultType="com.sulee.lms.admin.dto.MemberDto">
-        select *
-        from member
-        where 1=1
-           <include refid="selectListWhere"></include>
-
         limit #{pageStart}, #{pageEnd}
-
     </select>
 
 </mapper>
