@@ -5,5 +5,7 @@ import lombok.Data;
 @Data
 public class CourseInput {
     String subject;
+    long categoryId;
+    long id;
 
 }
