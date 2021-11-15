@@ -1,6 +1,7 @@
 package com.sulee.lms.admin.controller;
 
 
+import com.sulee.lms.admin.dto.AccessInfoDto;
 import com.sulee.lms.admin.dto.MemberDto;
 import com.sulee.lms.admin.model.MemberParam;
 import com.sulee.lms.admin.model.MemberInput;
@@ -49,8 +50,11 @@ public class AdminMemberController {
         parameter.init();
 
         MemberDto member =  memberService.detail(parameter.getUserId());
-        model.addAttribute("member", member);
 
+        List<AccessInfoDto> accessInfoDto = memberService.getAccessInfo(parameter.getUserId());
+
+        model.addAttribute("member", member);
+        model.addAttribute("list", accessInfoDto);
 
         return "admin/member/detail";
     }
@@ -68,6 +72,5 @@ public class AdminMemberController {
 
         return "redirect:/admin/member/detail.do?userId=" + parameter.getUserId();
     }
-
 
 }

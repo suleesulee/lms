@@ -30,6 +30,8 @@ public class MemberDto {
     long totalCount;
     long seq;
 
+    LocalDateTime lastLoginDt;
+
     public static MemberDto of(Member member){
         return MemberDto.builder()
                 .userId(member.getUserId())

@@ -5,8 +5,11 @@ import com.sulee.lms.member.model.MemberInput;
 import com.sulee.lms.member.model.ResetPasswordInput;
 import com.sulee.lms.member.repository.MemberRepository;
 import com.sulee.lms.member.service.MemberService;
+import com.sulee.lms.util.RequestUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,6 +33,17 @@ public class MemberController {
         return "member/login";
     }
 
+    @GetMapping("/member/loginSuccess")
+    public String loginSuccess(@AuthenticationPrincipal User user, HttpServletRequest request){
+        String userId = user.getUsername();
+        String userAgent = RequestUtils.getUserAgent(request);
+        String clientIp = RequestUtils.getClientIP(request);
+
+        memberService.accessInfo(userId, userAgent, clientIp);
+
+        return "member/loginSuccess";
+    }
+
     @GetMapping("/member/find-password")
     public String findPassword(){
         return "member/find_password";
@@ -47,7 +61,6 @@ public class MemberController {
 
         }
         model.addAttribute("result", result);
-
 
         return "member/find_password_result";
     }

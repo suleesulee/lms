@@ -1,17 +1,20 @@
 package com.sulee.lms.member.service.impl;
 
+import com.sulee.lms.admin.dto.AccessInfoDto;
 import com.sulee.lms.admin.dto.EmailTemplateDto;
 import com.sulee.lms.admin.dto.MemberDto;
+import com.sulee.lms.admin.mapper.AccessInfoMapper;
 import com.sulee.lms.admin.mapper.MemberMapper;
 import com.sulee.lms.admin.model.MemberParam;
 import com.sulee.lms.components.MailComponents;
-import com.sulee.lms.email.entity.EmailTemplate;
 import com.sulee.lms.email.service.EmailTemplateService;
+import com.sulee.lms.member.entity.AccessInfo;
 import com.sulee.lms.member.entity.Member;
 import com.sulee.lms.member.exception.MemberNotEmailAuthException;
 import com.sulee.lms.member.exception.MemberStopUser;
 import com.sulee.lms.member.model.MemberInput;
 import com.sulee.lms.member.model.ResetPasswordInput;
+import com.sulee.lms.member.repository.AccessInfoRepository;
 import com.sulee.lms.member.repository.MemberRepository;
 import com.sulee.lms.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -35,9 +38,12 @@ import java.util.UUID;
 public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
+    private final AccessInfoRepository accessInfoRepository;
     private final MailComponents mailComponents;
 
     private final MemberMapper memberMapper;
+    private final AccessInfoMapper accessInfoMapper;
+
     private final EmailTemplateService emailTemplateService;
 
     @Override
@@ -186,6 +192,8 @@ public class MemberServiceImpl implements MemberService {
 
         long totalCount = memberMapper.selectListCount(parameter);
 
+//        System.out.println(parameter.getUserId());
+//        System.out.println(lastLoginDt);
         List<MemberDto> list = memberMapper.selectList(parameter);
         if (!CollectionUtils.isEmpty(list)){
             int i = 0;
@@ -193,11 +201,12 @@ public class MemberServiceImpl implements MemberService {
                 x.setTotalCount(totalCount);
                 x.setSeq(totalCount - parameter.getPageStart() - i);
                 i++;
+                LocalDateTime lastLoginDt = accessInfoMapper.selectLastAccessTime(x.getUserId());
+                x.setLastLoginDt(lastLoginDt);
             }
         }
 
         return list;
-        //return memberRepository.findAll();
     }
 
     @Override
@@ -241,6 +250,38 @@ public class MemberServiceImpl implements MemberService {
 
         return true;
 
+    }
+
+    @Override
+    public boolean accessInfo(String userId, String userAgent, String userIp) {
+        AccessInfo accessInfo = AccessInfo.builder()
+                .userId(userId)
+                .loginDt(LocalDateTime.now())
+                .userAgent(userAgent)
+                .userIp(userIp)
+                .build();
+
+        accessInfoRepository.save(accessInfo);
+
+        return true;
+    }
+
+    @Override
+    public List<AccessInfoDto> getAccessInfo(String userId) {
+
+        long totalCount = accessInfoMapper.selectListCount(userId);
+
+        List<AccessInfoDto> list = accessInfoMapper.selectList(userId);
+        if (!CollectionUtils.isEmpty(list)){
+            int i = 1;
+            for(AccessInfoDto x : list){
+                x.setTotalCount(totalCount);
+                x.setSeq(i);
+                i++;
+            }
+        }
+
+        return list;
     }
 
     @Override

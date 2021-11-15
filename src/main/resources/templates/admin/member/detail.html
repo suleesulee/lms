@@ -92,6 +92,27 @@
         <div>
             <a href="list.do">목록</a>
         </div>
+        <div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>로그인 일자</th>
+                        <th>접속 IP</th>
+                        <th>접속 UserAgent</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="x: ${list}">
+                        <td th:text="${x.seq}"></td>
+                        <td th:text="${x.loginDt}"></td>
+                        <td th:text="${x.userIp}"></td>
+                        <td th:text="${x.userAgent}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
+
 </body>
 </html>

@@ -26,11 +26,11 @@ public class MainController {
     @GetMapping("/")
     public String index(HttpServletRequest request) {
 
-        String userAgent = RequestUtils.getUserAgent(request);
-        String clientIp = RequestUtils.getClientIP(request);
-
-        log.info(userAgent);
-        log.info(clientIp);
+//        String userAgent = RequestUtils.getUserAgent(request);
+//        String clientIp = RequestUtils.getClientIP(request);
+//
+//        log.info(userAgent);
+//        log.info(clientIp);
 
         return "index";
     }

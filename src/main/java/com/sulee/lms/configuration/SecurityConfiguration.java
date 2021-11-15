@@ -26,7 +26,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    UserAuthenticationFailureHandler gerFailureHandler(){
+    UserAuthenticationFailureHandler getFailureHandler(){
         return new UserAuthenticationFailureHandler();
     }
 
@@ -49,7 +49,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         http.formLogin()
                 .loginPage("/member/login")
-                .failureHandler(gerFailureHandler())
+                .defaultSuccessUrl("/member/loginSuccess")
+                .failureHandler(getFailureHandler())
                 .permitAll();
 
         http.logout()
