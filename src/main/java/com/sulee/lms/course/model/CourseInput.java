@@ -4,8 +4,15 @@ import lombok.Data;
 
 @Data
 public class CourseInput {
-    String subject;
-    long categoryId;
     long id;
+    long categoryId;
+    String subject;
+    String keyword;
+    String summary;
+    String contents;
+    long price;
+    long salePrice;
+    String saleEndDtText;
 
+    String idList;
 }
