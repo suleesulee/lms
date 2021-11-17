@@ -2,6 +2,7 @@ package com.sulee.lms.admin.service.impl;
 
 import com.sulee.lms.admin.dto.CategoryDto;
 import com.sulee.lms.admin.entity.Category;
+import com.sulee.lms.admin.mapper.CategoryMapper;
 import com.sulee.lms.admin.model.CategoryInput;
 import com.sulee.lms.admin.repository.CategoryRepository;
 import com.sulee.lms.admin.service.CategoryService;
@@ -19,6 +20,7 @@ import java.util.Optional;
 public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository categoryRepository;
+    private final CategoryMapper categoryMapper;
 
     private Sort getSortBySortValueDesc(){
         return Sort.by(Sort.Direction.DESC,"sortValue");
@@ -67,5 +69,10 @@ public class CategoryServiceImpl implements CategoryService {
         categoryRepository.deleteById(id);
 
         return true;
+    }
+
+    @Override
+    public List<CategoryDto> frontList(CategoryDto parameter) {
+        return categoryMapper.select(parameter);
     }
 }

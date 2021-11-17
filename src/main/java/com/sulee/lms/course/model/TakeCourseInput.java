@@ -4,8 +4,8 @@ import com.sulee.lms.admin.model.CommonParam;
 import lombok.Data;
 
 @Data
-public class CourseParam extends CommonParam {
-    long id; //course.id
-    long categoryId;
+public class TakeCourseInput extends CommonParam {
+    long courseId;
+    String userId;
 
 }
