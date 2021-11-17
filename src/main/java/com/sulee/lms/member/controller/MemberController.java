@@ -1,5 +1,7 @@
 package com.sulee.lms.member.controller;
 
+import com.sulee.lms.admin.dto.MemberDto;
+import com.sulee.lms.course.model.ServiceResult;
 import com.sulee.lms.member.entity.Member;
 import com.sulee.lms.member.model.MemberInput;
 import com.sulee.lms.member.model.ResetPasswordInput;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.security.Principal;
 import java.time.LocalDateTime;
 
 @RequiredArgsConstructor
@@ -105,11 +108,6 @@ public class MemberController {
         return "member/email-auth";
     }
 
-    @GetMapping("member/info")
-    public String memberInfo(){
-        return "member/info";
-    }
-
     @GetMapping("/member/reset/password")
     public String resetPassword(Model model, HttpServletRequest request){
         String uuid = request.getParameter("id");
@@ -134,4 +132,61 @@ public class MemberController {
 
         return "member/reset_password_result";
     }
+
+    @GetMapping("/member/info")
+    public String memberInfo(Model model, Principal principal){
+        String userId = principal.getName();
+        MemberDto detail = memberService.detail(userId);
+
+        model.addAttribute("detail", detail);
+
+        return "member/info";
+    }
+
+    @PostMapping("/member/info")
+    public String memberInfoSubmit(Model model, MemberInput parameter, Principal principal){
+        String userId = principal.getName();
+        parameter.setUserId(userId);
+
+        ServiceResult result = memberService.updateMember(parameter);
+
+        if(!result.isResult()){
+            model.addAttribute("message", result.getMessage());
+            return "common/error";
+        }
+
+        return "redirect:/member/info";
+    }
+
+
+    @GetMapping("/member/password")
+    public String memberPassword(Model model, Principal principal){
+        return "member/password";
+    }
+
+    @PostMapping("/member/password")
+    public String memberPasswordSubmit(Model model, MemberInput parameter, Principal principal){
+        String userId = principal.getName();
+        parameter.setUserId(userId);
+
+        ServiceResult result = memberService.updateMemberPassword(parameter);
+        if(!result.isResult()){
+            model.addAttribute("message", result.getMessage());
+            return "common/error";
+        }
+
+        return "redirect:/member/info";
+    }
+
+
+    @GetMapping("/member/takecourse")
+    public String memberTakeCourse(Model model, Principal principal){
+//        String userId = principal.getName();
+//        MemberDto detail = memberService.detail(userId);
+//
+//        model.addAttribute("detail", detail);
+
+        return "member/takecourse";
+    }
+
 }

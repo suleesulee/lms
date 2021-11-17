@@ -41,7 +41,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/member/register",
                         "/member/email-auth",
                         "/member/find-password",
-                        "/member/reset/password")
+                        "/member/reset/password"
+                        )
                 .permitAll();
 
         http.authorizeRequests()

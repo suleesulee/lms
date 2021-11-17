@@ -24,6 +24,7 @@ public class Member implements MemberCode {
     private String phone;
     private String password;
     private LocalDateTime regDt;
+    private LocalDateTime udtDt;
 
     private boolean emailAuthYn;
     private LocalDateTime emailAuthDt;
@@ -40,4 +41,8 @@ public class Member implements MemberCode {
     //이용가능상태, 정지상태
     private String userStatus;
 
+
+    private String zipcode;
+    private String addr;
+    private String addrDetail;
 }

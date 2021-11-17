@@ -3,6 +3,7 @@ package com.sulee.lms.member.service;
 import com.sulee.lms.admin.dto.AccessInfoDto;
 import com.sulee.lms.admin.dto.MemberDto;
 import com.sulee.lms.admin.model.MemberParam;
+import com.sulee.lms.course.model.ServiceResult;
 import com.sulee.lms.member.model.MemberInput;
 import com.sulee.lms.member.model.ResetPasswordInput;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -41,4 +42,11 @@ public interface MemberService extends UserDetailsService {
 
     //Id를 기반으로 접속 정보를 가져옴
     List<AccessInfoDto> getAccessInfo(String userId);
+
+    //회원 상세페이지내 비밀번호 수정
+    ServiceResult updateMemberPassword(MemberInput parameter);
+
+    //회원정보 수정
+    ServiceResult updateMember(MemberInput parameter);
+
 }

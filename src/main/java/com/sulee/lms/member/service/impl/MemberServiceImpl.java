@@ -7,6 +7,7 @@ import com.sulee.lms.admin.mapper.AccessInfoMapper;
 import com.sulee.lms.admin.mapper.MemberMapper;
 import com.sulee.lms.admin.model.MemberParam;
 import com.sulee.lms.components.MailComponents;
+import com.sulee.lms.course.model.ServiceResult;
 import com.sulee.lms.email.service.EmailTemplateService;
 import com.sulee.lms.member.entity.AccessInfo;
 import com.sulee.lms.member.entity.Member;
@@ -249,7 +250,6 @@ public class MemberServiceImpl implements MemberService {
         memberRepository.save(member);
 
         return true;
-
     }
 
     @Override
@@ -282,6 +282,47 @@ public class MemberServiceImpl implements MemberService {
         }
 
         return list;
+    }
+
+    @Override
+    public ServiceResult updateMemberPassword(MemberInput parameter) {
+        String userId = parameter.getUserId();
+        Optional<Member> optionalMember = memberRepository.findById(userId);
+        if(!optionalMember.isPresent()){
+            return new ServiceResult(false, "회원 정보가 존재하지 않습니다.");
+        }
+
+        Member member = optionalMember.get();
+
+        if(!BCrypt.checkpw(parameter.getPassword(), member.getPassword())){
+            return new ServiceResult(false,"비밀번호가 일치하지 않습니다.");
+        }
+
+        String encPassword = BCrypt.hashpw(parameter.getNewPassword(), BCrypt.gensalt());
+        member.setPassword(encPassword);
+        memberRepository.save(member);
+
+        return new ServiceResult(true);
+    }
+
+    @Override
+    public ServiceResult updateMember(MemberInput parameter) {
+        String userId = parameter.getUserId();
+        Optional<Member> optionalMember = memberRepository.findById(userId);
+        if(!optionalMember.isPresent()){
+            return new ServiceResult(false, "회원 정보가 존재하지 않습니다.");
+        }
+
+        Member member = optionalMember.get();
+        member.setPhone(parameter.getPhone());
+        member.setZipcode(parameter.getZipcode());
+        member.setAddr(parameter.getAddr());
+        member.setAddrDetail(parameter.getAddrDetail());
+        member.setUdtDt(LocalDateTime.now());
+        memberRepository.save(member);
+
+
+        return new ServiceResult(true);
     }
 
     @Override
