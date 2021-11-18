@@ -9,6 +9,7 @@ import com.sulee.lms.member.model.MemberInput;
 import com.sulee.lms.member.model.ResetPasswordInput;
 import com.sulee.lms.member.repository.MemberRepository;
 import com.sulee.lms.member.service.MemberService;
+import com.sulee.lms.util.PasswordUtils;
 import com.sulee.lms.util.RequestUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -203,10 +204,15 @@ public class MemberController {
     @PostMapping("/member/withdraw")
     public String memberWithdrawSubmit(Model model, MemberInput parameter, Principal principal){
         String userId = principal.getName();
-        MemberDto detail = memberService.detail(userId);
 
-        //if(parameter.getPassword())
+        ServiceResult result = memberService.withdraw(userId, parameter.getPassword());
+        if(!result.isResult()){
+            model.addAttribute("message", "비밀번호가 일치하지 않습니다");
+            return "common/error";
+        }
 
-        return "member/withdraw";
+
+
+        return "redirect:/member/logout";
     }
 }
