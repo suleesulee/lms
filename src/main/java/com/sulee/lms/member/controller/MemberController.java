@@ -195,4 +195,18 @@ public class MemberController {
         return "member/takecourse";
     }
 
+    @GetMapping("/member/withdraw")
+    public String memberWithdraw(Model model){
+        return "member/withdraw";
+    }
+
+    @PostMapping("/member/withdraw")
+    public String memberWithdrawSubmit(Model model, MemberInput parameter, Principal principal){
+        String userId = principal.getName();
+        MemberDto detail = memberService.detail(userId);
+
+        //if(parameter.getPassword())
+
+        return "member/withdraw";
+    }
 }
