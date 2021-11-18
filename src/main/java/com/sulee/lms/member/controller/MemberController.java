@@ -1,7 +1,9 @@
 package com.sulee.lms.member.controller;
 
 import com.sulee.lms.admin.dto.MemberDto;
+import com.sulee.lms.course.dto.TakeCourseDto;
 import com.sulee.lms.course.model.ServiceResult;
+import com.sulee.lms.course.service.TakeCourseService;
 import com.sulee.lms.member.entity.Member;
 import com.sulee.lms.member.model.MemberInput;
 import com.sulee.lms.member.model.ResetPasswordInput;
@@ -23,6 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.security.Principal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Controller
@@ -30,6 +33,7 @@ public class MemberController {
     //member/register
 
     private final MemberService memberService;
+    private final TakeCourseService takeCourseService;
 
     @RequestMapping(value = "/member/login")
     public String login(){
@@ -181,10 +185,12 @@ public class MemberController {
 
     @GetMapping("/member/takecourse")
     public String memberTakeCourse(Model model, Principal principal){
-//        String userId = principal.getName();
-//        MemberDto detail = memberService.detail(userId);
-//
-//        model.addAttribute("detail", detail);
+        String userId = principal.getName();
+        MemberDto detail = memberService.detail(userId);
+
+        List<TakeCourseDto> list = takeCourseService.myCourse(userId);
+
+        model.addAttribute("list", list);
 
         return "member/takecourse";
     }

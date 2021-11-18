@@ -3,6 +3,7 @@ package com.sulee.lms.course.service.Impl;
 import com.sulee.lms.course.dto.CourseDto;
 import com.sulee.lms.course.dto.TakeCourseDto;
 import com.sulee.lms.course.entity.TakeCourse;
+import com.sulee.lms.course.entity.TakeCourseCode;
 import com.sulee.lms.course.mapper.CourseMapper;
 import com.sulee.lms.course.mapper.TakeCourseMapper;
 import com.sulee.lms.course.model.ServiceResult;
@@ -30,9 +31,9 @@ public class TakeCourseServiceImpl implements TakeCourseService {
         long totalCount = takeCourseMapper.selectListCount(parameter);
 
         List<TakeCourseDto> list = takeCourseMapper.selectList(parameter);
-        if (!CollectionUtils.isEmpty(list)){
+        if (!CollectionUtils.isEmpty(list)) {
             int i = 0;
-            for(TakeCourseDto x : list){
+            for (TakeCourseDto x : list) {
                 x.setTotalCount(totalCount);
                 x.setSeq(totalCount - parameter.getPageStart() - i);
                 i++;
@@ -43,11 +44,20 @@ public class TakeCourseServiceImpl implements TakeCourseService {
     }
 
     @Override
+    public TakeCourseDto detail(long id) {
+        Optional<TakeCourse> optionalTakeCourse = takeCourseRepository.findById(id);
+        if (optionalTakeCourse.isPresent()) {
+            return TakeCourseDto.of(optionalTakeCourse.get());
+        }
+
+        return null;
+    }
+
+    @Override
     public ServiceResult updateStatus(long id, String status) {
 
-        System.out.println(status +  id);
         Optional<TakeCourse> optionalTakeCourse = takeCourseRepository.findById(id);
-        if(!optionalTakeCourse.isPresent()){
+        if (!optionalTakeCourse.isPresent()) {
             return new ServiceResult(false, "수강정보가 존재하지 않습니다.");
         }
 
@@ -57,5 +67,27 @@ public class TakeCourseServiceImpl implements TakeCourseService {
         takeCourseRepository.save(takeCourse);
 
         return new ServiceResult(true);
+    }
+
+    @Override
+    public List<TakeCourseDto> myCourse(String userId) {
+
+        TakeCourseParam parameter = new TakeCourseParam();
+        parameter.setUserId(userId);
+        List<TakeCourseDto> list = takeCourseMapper.selectListMyCourse(parameter);
+        return list;
+    }
+
+    @Override
+    public ServiceResult cancel(long id) {
+        Optional<TakeCourse> optionalTakeCourse = takeCourseRepository.findById(id);
+        if (!optionalTakeCourse.isPresent()) {
+            return new ServiceResult(false, "수강 정보가 존재하지 않습니다.");
+        }
+        TakeCourse takeCourse = optionalTakeCourse.get();
+        takeCourse.setStatus(TakeCourseCode.STATUS_CANCEL);
+        takeCourseRepository.save(takeCourse);
+
+        return new ServiceResult();
     }
 }
