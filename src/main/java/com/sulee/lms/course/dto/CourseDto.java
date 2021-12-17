@@ -36,6 +36,9 @@ public class CourseDto {
     long totalCount;
     long seq;
 
+    String filename;
+    String urlFilename;
+
     public static CourseDto of(Course course) {
         return CourseDto.builder()
                 .id(course.getId())
@@ -50,6 +53,8 @@ public class CourseDto {
                 .saleEndDt(course.getSaleEndDt())
                 .regDt(course.getRegDt())
                 .uptDt(course.getUptDt())
+                .filename(course.getFilename())
+                .urlFilename(course.getUrlFilename())
                 .build();
     }
 

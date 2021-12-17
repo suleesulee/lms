@@ -38,4 +38,7 @@ public class Course {
     //등록일(추가날)
     LocalDateTime regDt;
     LocalDateTime uptDt;
+
+    String filename;
+    String urlFilename;
 }
